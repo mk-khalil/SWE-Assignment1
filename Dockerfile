@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Run the unit tests when the container is started
-CMD ["python", "-m", "unittest", "test_addition.py"]
+CMD ["coverage", "run", "--source=.", "-m", "unittest"]

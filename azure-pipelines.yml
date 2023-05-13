@@ -20,3 +20,8 @@ steps:
 - script: |
     python -m unittest discover -s . -p "test_*.py"
   displayName: 'Run tests'
+
+- script: |
+    coverage run --source=. -m unittest discover tests
+    coverage report -m
+  displayName: 'Run tests with coverage'
