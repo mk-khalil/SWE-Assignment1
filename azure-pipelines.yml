@@ -22,6 +22,6 @@ steps:
   displayName: 'Run tests'
 
 - script: |
-    coverage run --source=. -m unittest discover tests
+    coverage run --source=. -m unittest discover -s . -p "test_*.py"
     coverage report -m
   displayName: 'Run tests with coverage'
