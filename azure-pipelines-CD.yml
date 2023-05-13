@@ -11,7 +11,7 @@ steps:
 - task: Docker@2
   displayName: 'Build Docker image'
   inputs:
-    containerRegistry: 'swe-container'
+    containerRegistry: 'SWE-Assignment1'
     repository: 'SWE-Assignment1'
     command: 'build'
     Dockerfile: '**/Dockerfile'
@@ -20,7 +20,7 @@ steps:
 - task: Docker@2
   displayName: 'Push Docker image'
   inputs:
-    containerRegistry: 'swe-container'
+    containerRegistry: 'SWE-Assignment1'
     repository: 'SWE-Assignment1'
     command: 'push'
     tags: 'latest'
