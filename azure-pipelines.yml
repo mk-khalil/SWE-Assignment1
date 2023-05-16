@@ -4,7 +4,9 @@ trigger:
       - main
 
 pool:
-  name: Default
+  #name: Default
+  vmImage: 'ubuntu-latest'
+
 
 steps:
 - task: UsePythonVersion@0
