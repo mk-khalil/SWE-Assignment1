@@ -50,7 +50,8 @@ stages:
   - job: RunAcceptanceTests
     displayName: Run Acceptance Tests
     pool:
-      name: Default
+      #name: Default
+      vmImage: 'ubuntu-latest'
     steps:
       - script: |
           python -m pip install --upgrade pip
