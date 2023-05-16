@@ -59,26 +59,46 @@ stages:
           python test_acceptance.py
         displayName: 'Run acceptance tests'
 
-jobs:
+- stage: BuildAndTest
+  displayName: 'Build and Test'
+  jobs:
+    - job: BuildAndTestJob
+      displayName: 'Build and Test Job'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        # Your build and test steps go here
+        - script: echo 'Building and testing...'
 
-- job: ManualTesting
+- stage: ManualTesting
   displayName: 'Manual Testing'
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-    - checkout: none
-    - task: ManualIntervention@8
-      inputs:
-        instructions: 'Perform manual testing and then resume the pipeline.'
-        emailRecipients: '201801898@zewailcity.edu.eg'
+  dependsOn: BuildAndTest
+  condition: succeeded()
+  jobs:
+    - job: ManualTestingJob
+      displayName: 'Manual Testing Job'
+      pool:
+        vmImage: 'ubuntu-latest'
+      steps:
+        - checkout: none
+        - task: ManualIntervention@8
+          inputs:
+            instructions: 'Perform manual testing and then resume the pipeline.'
+            emailRecipients: '201801898@zewailcity.edu.eg' 
 
-- deployment: DeployToProduction
+- stage: DeployToProduction
   displayName: 'Deploy to Production'
-  environment: 'swe_ass1_deployment'
   dependsOn: ManualTesting
   condition: succeeded()
-  strategy:
-    runOnce:
-      deploy:
-        steps:
-        - script: echo 'Deploying to production...'
+  jobs:
+    - deployment: DeployToProductionJob
+      displayName: 'Deploy to Production Job'
+      environment: 'swe_ass1_deployment'
+      pool:
+        vmImage: 'ubuntu-latest'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              # Your deployment steps go here
+              - script: echo 'Deploying to production...'
