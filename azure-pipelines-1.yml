@@ -62,7 +62,7 @@ stages:
 
 - stage: DeployToProduction
   displayName: 'Deploy to Production'
-  dependsOn: ManualTesting
+  dependsOn: Test
   condition: succeeded()
   jobs:
     - deployment: DeployToProductionJob
