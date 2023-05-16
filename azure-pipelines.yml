@@ -27,3 +27,4 @@ steps:
     coverage run --source=. -m unittest discover -s . -p "test_*.py"
     coverage report -m
   displayName: 'Run tests with coverage'
+

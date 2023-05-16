@@ -50,7 +50,8 @@ stages:
   - job: RunAcceptanceTests
     displayName: Run Acceptance Tests
     pool:
-      name: Default
+      #name: Default
+      vmImage: $(vmImageName)
     steps:
       - script: |
           python -m pip install --upgrade pip
@@ -58,3 +59,26 @@ stages:
           python test_acceptance.py
         displayName: 'Run acceptance tests'
 
+jobs:
+
+- job: ManualTesting
+  displayName: 'Manual Testing'
+  pool:
+    vmImage: 'ubuntu-latest'
+  steps:
+    - checkout: none
+    - task: ManualIntervention@8
+      inputs:
+        instructions: 'Perform manual testing and then resume the pipeline.'
+        emailRecipients: '201801898@zewailcity.edu.eg'
+
+- deployment: DeployToProduction
+  displayName: 'Deploy to Production'
+  environment: 'swe_ass1_deployment'
+  dependsOn: ManualTesting
+  condition: succeeded()
+  strategy:
+    runOnce:
+      deploy:
+        steps:
+        - script: echo 'Deploying to production...'
